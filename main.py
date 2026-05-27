@@ -17,12 +17,21 @@ from tools.flight_tool import search_flights
 # 1. Environment Load
 # ==========================================
 load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL")
+
+# Check for Streamlit Secrets first (Cloud), then fallback to local .env
+try:
+    import streamlit as st
+    DATABASE_URL = st.secrets.get("DATABASE_URL", os.getenv("DATABASE_URL"))
+    os.environ["GROQ_API_KEY"] = st.secrets.get("GROQ_API_KEY", os.getenv("GROQ_API_KEY"))
+    os.environ["TAVILY_API_KEY"] = st.secrets.get("TAVILY_API_KEY", os.getenv("TAVILY_API_KEY"))
+    os.environ["AVIATIONSTACK_API_KEY"] = st.secrets.get("AVIATIONSTACK_API_KEY", os.getenv("AVIATIONSTACK_API_KEY"))
+except Exception:
+    DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    print("❌ CRITICAL ERROR: DATABASE_URL is missing from .env")
+    print("❌ CRITICAL ERROR: DATABASE_URL is missing")
     sys.exit(1)
-
+    
 # ==========================================
 # 2. LLM Initialization
 # ==========================================
