@@ -1,0 +1,10 @@
+streamlit
+langgraph
+langchain-groq
+langchain-core
+psycopg[binary]
+python-dotenv
+tavily-python
+requests
+markdown
+xhtml2pdf
