@@ -127,24 +127,3 @@ except psycopg.OperationalError as e:
 
 app = graph.compile(checkpointer=checkpointer)
 
-# ==========================================
-# 7. Fallback CLI Execution
-# ==========================================
-if __name__ == "__main__":
-    config = {"configurable": {"thread_id": "user_arpita"}}
-    user_input = input("\n✈️ Enter travel request: ")
-    result = app.invoke(
-        {
-            "messages": [HumanMessage(content=user_input)],
-            "user_query": user_input,
-            "flight_results": "",
-            "hotel_results": "",
-            "itinerary": "",
-            "llm_calls": 0
-        },
-        config=config
-    )
-    print("\n🎯 FINAL RESPONSE:\n")
-    for msg in result["messages"]:
-        if isinstance(msg, AIMessage):
-            print(f">> {msg.content}\n")
