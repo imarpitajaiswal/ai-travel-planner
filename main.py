@@ -29,8 +29,7 @@ except Exception:
     DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    print("❌ CRITICAL ERROR: DATABASE_URL is missing")
-    sys.exit(1)
+    raise ValueError("❌ CRITICAL ERROR: DATABASE_URL is missing from Streamlit Secrets!")
     
 # ==========================================
 # 2. LLM Initialization
