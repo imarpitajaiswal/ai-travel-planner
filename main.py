@@ -121,8 +121,7 @@ try:
     checkpointer = PostgresSaver(_conn)
     checkpointer.setup()
 except psycopg.OperationalError as e:
-    print(f"❌ Database Connection Failed: {e}")
-    sys.exit(1)
+    raise ConnectionError(f"❌ Database Connection Failed: {e}")
 
 app = graph.compile(checkpointer=checkpointer)
 
